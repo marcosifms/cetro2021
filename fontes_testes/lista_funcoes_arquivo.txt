@@ -1,0 +1,63 @@
+
+	
+Code:
+// Open a file for reading (really a define that calls _OpenFile() with the right ev3FileFlags)
+// File name can contain a path, but this will be ignored.  All ROBOTC data files like this
+// reside under /home/root/lms2012/prjs/rc-data.  This cannot be changed and sub folders
+// are not supported.
+// Returns a file descriptor, which is used for writing and subsequently closing the file
+#define fileOpenWrite(X) _OpenFile(X, fileFlagWriteOnly|fileFlagCreate|fileFlagTruncate)
+
+// Open a file writing (really a define that calls _OpenFile() with the right ev3FileFlags)
+// File name can contain a path, but this will be ignored.  All ROBOTC data files like this
+// reside under /home/root/lms2012/prjs/rc-data.  This cannot be changed and sub folders
+// are not supported.
+// Returns a file descriptor, which is used for reading and subsequently closing the file
+#define fileOpenRead(X)    _OpenFile(X, fileFlagReadOnly)
+
+// this is an "internal" function and should not be used directly, returns a file descriptor
+// The flags are one or more of the ones in ev3FileFlags, OR'd together.
+intrinsic long _OpenFile(const char *pzFileName, ev3FileFlags nFlags);
+
+// Close the file. Returns true if the close() went off without an issue, false if it didn't.
+intrinsic bool fileClose(long nFileDescriptor);
+
+// Write a signed long value to the file descriptor
+// Returns true if action did not cause an error, false if it did
+intrinsic bool fileWriteLong(long nFileDescriptor, long data);
+
+// Read a signed long value from the file descriptor
+// Returns true if action did not cause an error, false if it did
+intrinsic bool fileReadLong(long nFileDescriptor, long *pData);
+
+// Write a float value to the file descriptor
+// Returns true if action did not cause an error, false if it did
+intrinsic bool fileWriteFloat(long nFileDescriptor, float data);
+
+// Read a float value from the file descriptor
+// Returns true if action did not cause an error, false if it did
+intrinsic bool fileReadFloat(long nFileDescriptor, float *pData);
+
+// Write a signed 2 byte (short) value to the file descriptor
+// Returns true if action did not cause an error, false if it did
+intrinsic bool fileWriteShort(long nFileDescriptor, short data);
+
+// Read a signed 2 byte (short) value from the file descriptor
+// Returns true if action did not cause an error, false if it did
+intrinsic bool fileReadShort(long nFileDescriptor, short *pData);
+
+// Write an unsigned single byte value to the file descriptor
+// Returns true if action did not cause an error, false if it did
+intrinsic bool fileWriteChar(long nFileDescriptor, char data);
+
+// Read an unsigned single byte value from the file descriptor
+// Returns true if action did not cause an error, false if it did
+intrinsic bool fileReadChar(long nFileDescriptor, char *pData);
+
+// Write arbitrary data to the file descriptor
+// Returns true if action did not cause an error, false if it did
+intrinsic bool fileWriteData(long nFileDescriptor, char *pData, long nWriteLen);
+
+// Read arbitrary data from the file descriptor
+// Returns true if action did not cause an error, false if it did
+intrinsic long fileReadData(long nFileDescriptor, char *pData, long nReadLen);
