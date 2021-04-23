@@ -23,29 +23,27 @@ int preto=0;
 
 int somaS1;
 int somaS2;
-int somaS3;
-int somaS4;
+
 
 task obterCor(){
 //void obterCor2021() {
 	while(true){
 		//RED GREEN BLUE
 
-		getColorRGB(luz1,a1,b1,c1); // Definindo para a1 = R, b1 = G e c1 = B do sensor1
-		getColorRGB(luz2,a2,b2,c2);	// Definindo para a2 = R, b2 = G e c2 = B do sensor2
-		getColorRGB(luz3,a3,b3,c3); //Definido para a3 = R, b3 = G e c3 = B do sensor 3
-		getColorRGB(luz4,a4,b4,c4); //Definido para a4 = R, b4 = G e c4 = B do sensor 4
+		getColorRawRGB(luz1,a1,b1,c1); // Definindo para a1 = R, b1 = G e c1 = B do sensor1
+		getColorRawRGB(luz2,a2,b2,c2);	// Definindo para a2 = R, b2 = G e c2 = B do sensor2
+		getColorRawRGB(luz3,a3,b3,c3); //Definido para a3 = R, b3 = G e c3 = B do sensor 3
+		getColorRawRGB(luz4,a4,b4,c4); //Definido para a4 = R, b4 = G e c4 = B do sensor 4
 
 		somaS1 = (a1 * 2) + (b1*3) + (c1*1);
 
 		somaS2 = (a2 * 2) + (b2*3) + (c2*1);
-		somaS3 = (a3 * 2) + (b3*3) + (c3*1);
-		somaS4 = (a4 * 2) + (b4*3) + (c4*1);
+		int somaS3 = (a3 * 2) + (b3*3) + (c3*1);
+		int somaS4 = (a4 * 2) + (b4*3) + (c4*1);
 
-		displayCenteredBigTextLine(3,"cor1 %d|%d|%d",a1,b1,c1);
-		displayCenteredBigTextLine(6,"cor2 %d|%d|%d",a2,b2,c2);
-
-		int intervBr1 =300, intervBr2=600, intervPr1=30, intervPr2=80, intervVer1=120, intervVer2=150;
+		int intervBr1 =1000, intervBr2=2200;
+		int intervPr1=30, intervPr2=290;
+		int intervVer1=300, intervVer2=650;
 		//S1 - Luz1
 		if(somaS1>intervBr1 && somaS1<intervBr2){
 			//Verificacao: Branco Esquerdo
@@ -198,88 +196,83 @@ task obterCor(){
 //#include<obstaculo.h>;
 #include<noventagrausdireita.h>
 #include<noventagrausesquerda.h>;
-//#include<verdeesquerda.h>;
+#include<verdeesquerda.h>;
 //#include<verdedireita.h>;
 //#include<rampa.h>;
 
 void andarReto(){
-	setMultipleMotors(-29, motorA,motorB);
-
+	setMultipleMotors(-28, motorA,motorB);
+	//	wait(0.2, seconds);
+	//	stopAllMotors();
 }
 task main(){
-	startTask(obterCor);
-	stopAllMotors();
-	wait(1000,milliseconds);
 
+int numeros1[200];
+	int numeros2[200];
+	startTask(obterCor);
 
 	while(true){
-
-		//	obterCor();
-		//displayBigTextLine(8,"cor12:%d, %d",somaS1, cor1);
-		//	displayBigTextLine(12,"cor22:%d, %d",somaS2, cor2);
-
+		//obterCor2021();
+		//displayBigTextLine(8,"cor1:%d, %d",somaS1, cor1);
+		//displayBigTextLine(12,"cor2:%d, %d",somaS2, cor2);
 
 		//andar reto
-		if(cor1==BRANCO&&cor2==BRANCO){
+		if(cor1==BRANCO && cor2==BRANCO){
 
 			andarReto();
-		} //else {
-		//stopAllMotors();
-
-		noventagrausdireita();
-
-		noventagrausesquerda();
+			} else {
+			stopAllMotors();
+	    //wait(4, seconds);
+			noventagrausdireita();
 
 			noventagrausesquerda();
 
-		if (cor1 != BRANCO){
-			while  (cor2 != BRANCO){
+			/*	if(cor1==PRETO&&cor2==PRETO&&cor3==PRETO&&cor4==PRETO){
+			stopAllMotors();
+			setMultipleMotors(-20, motorA,motorB);
+			wait(100,milliseconds);
+			}
+			*/
+			//esquerda
+			if (cor1 != BRANCO){
+				while  (cor2 != BRANCO){
+					setMotor(motorB, -15);
+				}
+				//correção para sair totalemente do preto
+				stopAllMotors();
 				setMotor(motorB, -15);
+				setMotor(motorA, 10);
+				wait(0.4, seconds);
 			}
-			//correção para sair totalemente do preto
-			stopAllMotors();
-			setMotor(motorB, -15);
-			setMotor(motorA, 13);
-			wait(0.5, seconds);
-		}
-
-
-
-		//direita
-		if  (cor2 != BRANCO){
-			while  (cor1 != BRANCO){
+			//direita
+			if  (cor2 != BRANCO){
+				while  (cor1 != BRANCO){
+					setMotor(motorA, -15);
+				}
+				//correção para sair totalemente do preto
+				stopAllMotors();
 				setMotor(motorA, -15);
+				setMotor(motorB, 10);
+				wait(0.4, seconds);
 			}
-			//correção para sair totalemente do preto
-			stopAllMotors();
-			setMotor(motorA, -15);
-			setMotor(motorB, 13);
-			wait(0.5, seconds);
+
+
+			verdeesquerda();
+
+			//verdedireita();
+
+
+
+			//	obstaculo();
+
+
+			//	rampa();
+
+
+
+
+
 		}
-
-
-
-		//verdeesquerda();
-
-		//verdedireita();
-
-
-
-		//	obstaculo();
-
-
-		//	rampa();
-
-		if(cor1==-1 || cor2==-1){
-			stopAllMotors();
-			wait(100, milliseconds);
-		}
-
-
-
-
-
-
 
 	}
 }
